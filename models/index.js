@@ -4,8 +4,6 @@ const Category = require('./Category');
 const Tag = require('./Tag');
 const ProductTag = require('./ProductTag');
 
-const ProductTag = sequelize.define('productTag', {});
-
 Product.belongsTo(Category, {
   foreignKey: 'category_id',
 });
