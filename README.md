@@ -1,367 +1,98 @@
 # ormbackened
 
-Object-Relational Mapping (ORM) Challenge: E-commerce Back End
-Internet retail, also known as e-commerce, is the largest sector of the electronics industry, having generated an estimated US$29 trillion in 2017 (Source: United Nations Conference on Trade and Development). E-commerce platforms like Shopify and WooCommerce provide a suite of services to businesses of all sizes. Due to the prevalence of these platforms, developers should understand the fundamental architecture of e-commerce sites.
 
-Your challenge is to build the back end for an e-commerce site. You’ll take a working Express.js API and configure it to use Sequelize to interact with a MySQL database.
+| Technology Used         | Resource URL           | 
+| ------------- |:-------------:| 
+| Git | [https://git-scm.com/](https://git-scm.com/)     |    
+| JavaScript | [https://developer.mozilla.org/en-US/docs/Web/JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)     
+| Node.JS| [https://developer.mozilla.org/en-US/docs/Glossary/Node.js?utm_source=wordpress%20blog&utm_medium=content%20link&utm_campaign=promote%20mdn](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)    
+| Mysql2 |:https://www.npmjs.com/package/mysql2:| 
 
-Because this application won’t be deployed, you’ll also need to create a walkthrough video that demonstrates its functionality and all of the following acceptance criteria being met. You’ll need to submit a link to the video and add it to the README of your project.
 
-Refer to the Video Submission GuideLinks to an external site. on the Full-Stack Blog for additional guidance on creating a video.
 
-IMPORTANT
-Make sure to clone the starter code repository and make your own repository with the starter code. Do not fork the starter code repository!
+## Description 
+![plot](./assets/Screen%20Shot%202023-05-05%20at%208.52.20%20AM.png)
 
-Before you start, clone the starter codeLinks to an external site..
 
-User Story
-AS A manager at an internet retail company
-I WANT a back end for my e-commerce website that uses the latest technologies
-SO THAT my company can compete with other e-commerce companies
-Acceptance Criteria
-GIVEN a functional Express.js API
-WHEN I add my database name, MySQL username, and MySQL password to an environment variable file
-THEN I am able to connect to a database using Sequelize
-WHEN I enter schema and seed commands
-THEN a development database is created and is seeded with test data
-WHEN I enter the command to invoke the application
-THEN my server is started and the Sequelize models are synced to the MySQL database
-WHEN I open API GET routes in Insomnia Core for categories, products, or tags
-THEN the data for each of these routes is displayed in a formatted JSON
-WHEN I test API POST, PUT, and DELETE routes in Insomnia Core
-THEN I am able to successfully create, update, and delete data in my database
-Mock-Up
-The following animations show examples of the application's API routes being tested in Insomnia Core.
+Video of the application in action: https://drive.google.com/file/d/1sLNdduFcP0Uog8saGDbSZqeZ8wrffi1r/view
 
-The first animation shows GET routes to return all categories, all products, and all tags being tested in Insomnia Core:
 
-In Insomnia Core, the user tests “GET tags,” “GET Categories,” and “GET All Products.”.
+This is a ORM backend which has a list of products and their catagories and tags for easy tracking and showing off to the customer.  
 
-The second animation shows GET routes to return a single category, a single product, and a single tag being tested in Insomnia Core:
 
-In Insomnia Core, the user tests “GET tag by id,” “GET Category by ID,” and “GET One Product.”
 
-The final animation shows the POST, PUT, and DELETE routes for categories being tested in Insomnia Core:
+## Code Refactor Example
 
-In Insomnia Core, the user tests “DELETE Category by ID,” “CREATE Category,” and “UPDATE Category.”
 
-Your walkthrough video should also show the POST, PUT, and DELETE routes for products and tags being tested in Insomnia Core.
+Below is a model table for mysql backend db creation
 
-Getting Started
-You’ll need to use the MySQL2Links to an external site. and SequelizeLinks to an external site. packages to connect your Express.js API to a MySQL database and the dotenv packageLinks to an external site. to use environment variables to store sensitive data, like your MySQL username, password, and database name.
+```Javascript
 
-Use the schema.sql file in the db folder to create your database using MySQL shell commands. Use environment variables to store sensitive data, like your MySQL username, password, and database name.
 
-Database Models
-Your database should contain the following four models, including the requirements listed for each model:
+class Category extends Model {}
 
-Category
+Category.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    category_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    sequelize,
+    timestamps: false,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'category', 
+  }
+);
+module.exports = Category;
+```
 
-id
+Below is a route for creating a new tag
 
-Integer
+``` JavaScript
 
-Doesn't allow null values
+router.post('/', async(req, res) => {
+  const tag = await Tag.create(req.body);
+    res.status(200).json(tag);
+    console.log("new tag created")
+});
 
-Set as primary key
+``` 
 
-Uses auto increment
 
-category_name
 
-String
+## Usage 
 
-Doesn't allow null values
+You will need to clone down all the repro.  Install the needed NPM packages. Then you will need to run a schema or manually insert data into the database.  Afterwards you will probably need to update the MYSQL data to have you have locally.  Then you will be able to execute the program by running "npm watch"
 
-Product
 
-id
+## Learning Points 
 
-Integer
 
-Doesn't allow null values
+Geeze learning MYSQL and how to do async functions was quite a beast.Sequelize helps but doesn't help at the same time.  I failed and failed and failed some more untiL I was finally able to get some help and get over the hump.   Hopefully the demo demonstrates that it all works and is functional.  
 
-Set as primary key
+## Author Info
 
-Uses auto increment
+SWEngineer secretely regretting all my life choices that lead to this point. 
 
-product_name
+* [Portfolio](https://bdalberson.github.io/Course2Biopage/)
+* [LinkedIn](https://www.linkedin.com/in/brian-alberson-464b2271/)
+* [Github](https://github.com/bdalberson)
+```
 
-String
+## Credits
 
-Doesn't allow null values
+Mostly slap this one together myself, hope it impresses. 
 
-price
+---
 
-Decimal
-
-Doesn't allow null values
-
-Validates that the value is a decimal
-
-stock
-
-Integer
-
-Doesn't allow null values
-
-Set a default value of 10
-
-Validates that the value is numeric
-
-category_id
-
-Integer
-
-References the category model's id
-
-Tag
-
-id
-
-Integer
-
-Doesn't allow null values
-
-Set as primary key
-
-Uses auto increment
-
-tag_name
-
-String
-
-ProductTag
-
-id
-
-Integer
-
-Doesn't allow null values
-
-Set as primary key
-
-Uses auto increment
-
-product_id
-
-Integer
-
-References the product model's id
-
-tag_id
-
-Integer
-
-References the tag model's id
-
-Associations
-You'll need to execute association methods on your Sequelize models to create the following relationships between them:
-
-Product belongs to Category, as a category can have multiple products but a product can only belong to one category.
-
-Category has many Product models.
-
-Product belongs to Object-Relational Mapping (ORM) Challenge: E-commerce Back End
-Internet retail, also known as e-commerce, is the largest sector of the electronics industry, having generated an estimated US$29 trillion in 2017 (Source: United Nations Conference on Trade and Development). E-commerce platforms like Shopify and WooCommerce provide a suite of services to businesses of all sizes. Due to the prevalence of these platforms, developers should understand the fundamental architecture of e-commerce sites.
-
-Your challenge is to build the back end for an e-commerce site. You’ll take a working Express.js API and configure it to use Sequelize to interact with a MySQL database.
-
-Because this application won’t be deployed, you’ll also need to create a walkthrough video that demonstrates its functionality and all of the following acceptance criteria being met. You’ll need to submit a link to the video and add it to the README of your project.
-
-Refer to the Video Submission GuideLinks to an external site. on the Full-Stack Blog for additional guidance on creating a video.
-
-IMPORTANT
-Make sure to clone the starter code repository and make your own repository with the starter code. Do not fork the starter code repository!
-
-Before you start, clone the starter codeLinks to an external site..
-
-User Story
-AS A manager at an internet retail company
-I WANT a back end for my e-commerce website that uses the latest technologies
-SO THAT my company can compete with other e-commerce companies
-Acceptance Criteria
-GIVEN a functional Express.js API
-WHEN I add my database name, MySQL username, and MySQL password to an environment variable file
-THEN I am able to connect to a database using Sequelize
-WHEN I enter schema and seed commands
-THEN a development database is created and is seeded with test data
-WHEN I enter the command to invoke the application
-THEN my server is started and the Sequelize models are synced to the MySQL database
-WHEN I open API GET routes in Insomnia Core for categories, products, or tags
-THEN the data for each of these routes is displayed in a formatted JSON
-WHEN I test API POST, PUT, and DELETE routes in Insomnia Core
-THEN I am able to successfully create, update, and delete data in my database
-Mock-Up
-The following animations show examples of the application's API routes being tested in Insomnia Core.
-
-The first animation shows GET routes to return all categories, all products, and all tags being tested in Insomnia Core:
-
-In Insomnia Core, the user tests “GET tags,” “GET Categories,” and “GET All Products.”.
-
-The second animation shows GET routes to return a single category, a single product, and a single tag being tested in Insomnia Core:
-
-In Insomnia Core, the user tests “GET tag by id,” “GET Category by ID,” and “GET One Product.”
-
-The final animation shows the POST, PUT, and DELETE routes for categories being tested in Insomnia Core:
-
-In Insomnia Core, the user tests “DELETE Category by ID,” “CREATE Category,” and “UPDATE Category.”
-
-Your walkthrough video should also show the POST, PUT, and DELETE routes for products and tags being tested in Insomnia Core.
-
-Getting Started
-You’ll need to use the MySQL2Links to an external site. and SequelizeLinks to an external site. packages to connect your Express.js API to a MySQL database and the dotenv packageLinks to an external site. to use environment variables to store sensitive data, like your MySQL username, password, and database name.
-
-Use the schema.sql file in the db folder to create your database using MySQL shell commands. Use environment variables to store sensitive data, like your MySQL username, password, and database name.
-
-Database Models
-Your database should contain the following four models, including the requirements listed for each model:
-
-Category
-
-id
-
-Integer
-
-Doesn't allow null values
-
-Set as primary key
-
-Uses auto increment
-
-category_name
-
-String
-
-Doesn't allow null values
-
-Product
-
-id
-
-Integer
-
-Doesn't allow null values
-
-Set as primary key
-
-Uses auto increment
-
-product_name
-
-String
-
-Doesn't allow null values
-
-price
-
-Decimal
-
-Doesn't allow null values
-
-Validates that the value is a decimal
-
-stock
-
-Integer
-
-Doesn't allow null values
-
-Set a default value of 10
-
-Validates that the value is numeric
-
-category_id
-
-Integer
-
-References the category model's id
-
-Tag
-
-id
-
-Integer
-
-Doesn't allow null values
-
-Set as primary key
-
-Uses auto increment
-
-tag_name
-
-String
-
-ProductTag
-
-id
-
-Integer
-
-Doesn't allow null values
-
-Set as primary key
-
-Uses auto increment
-
-product_id
-
-Integer
-
-References the product model's id
-
-tag_id
-
-Integer
-
-References the tag model's id
-
-Associations
-You'll need to execute association methods on your Sequelize models to create the following relationships between them:
-
-Product belongs to Category, as a category can have multiple products but a product can only belong to one category.
-
-Category has many Product models.
-
-Product belongs to many Tag models. Using the ProductTag through model, allow products to have multiple tags and tags to have many products.
-
-Tag belongs to many Product models.
-
-HINT
-Make sure you set up foreign key relationships that match the column we created in the respective models.
-
-Fill Out the API Routes to Perform RESTful CRUD Operations
-Fill out the unfinished routes in product-routes.js, tag-routes.js, and category-routes.js to perform create, read, update, and delete operations using your Sequelize models.
-
-NOTE
-The functionality for creating the many-to-many relationship for products is already done for you.
-
-HINT
-Be sure to look at your module project's code for syntax help and use your model's column definitions to figure out what req.body will be for POST and PUT routes!
-
-Seed the Database
-After creating the models and routes, run npm run seed to seed data to your database so that you can test your routes.
-
-Sync Sequelize to the Database on Server Start
-Create the code needed in server.js to sync the Sequelize models to the MySQL database on server start.many Tag models. Using the ProductTag through model, allow products to have multiple tags and tags to have many products.
-
-Tag belongs to many Product models.
-
-HINT
-Make sure you set up foreign key relationships that match the column we created in the respective models.
-
-Fill Out the API Routes to Perform RESTful CRUD Operations
-Fill out the unfinished routes in product-routes.js, tag-routes.js, and category-routes.js to perform create, read, update, and delete operations using your Sequelize models.
-
-NOTE
-The functionality for creating the many-to-many relationship for products is already done for you.
-
-HINT
-Be sure to look at your module project's code for syntax help and use your model's column definitions to figure out what req.body will be for POST and PUT routes!
-
-Seed the Database
-After creating the models and routes, run npm run seed to seed data to your database so that you can test your routes.
-
-Sync Sequelize to the Database on Server Start
-Create the code needed in server.js to sync the Sequelize models to the MySQL database on server start.
+## Tests
+Just testing using Mysql workbench to verify datatables and Insomnia to verify route data.   
